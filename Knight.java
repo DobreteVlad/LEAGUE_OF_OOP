@@ -27,20 +27,20 @@ public class Knight extends Player {
         this.addDamageLevelFirst(Constants.getBoostDamageExecute() * this.getLevel());
         float x = this.getdamageFirstAbility();
         if (land == 'L') {
-            x = (float) (x * Constants.getLandBonusLand());
+            x = (x * Constants.getLandBonusLand());
         }
         this.modifyDamageTotalNoRace(x);
         if (enemy.getName() == 'R') {
-            x = (float) (x * Constants.getExecuteRogue());
+            x = (x * Constants.getExecuteRogue());
         }
         if (enemy.getName() == 'K') {
-            x = (float) (x * Constants.getExecuteKnight());
+            x = (x * Constants.getExecuteKnight());
         }
         if (enemy.getName() == 'P') {
-            x = (float) (x * Constants.getExecutePyromancer());
+            x = (x * Constants.getExecutePyromancer());
         }
         if (enemy.getName() == 'W') {
-            x = (float) (x * Constants.getExecuteWizard());
+            x = (x * Constants.getExecuteWizard());
         }
         this.setdamageFirstAbility(Math.round(x));
     }
@@ -54,22 +54,23 @@ public class Knight extends Player {
         this.addDamageLevelSecond(Constants.getBoostDamageIgnite() * this.getLevel());
         float x = this.getdamageSecondAbility();
         if (land == 'L') {
-            x = (float) (x * Constants.getLandBonusLand());
+            x = (x * Constants.getLandBonusLand());
         }
         this.modifyDamageTotalNoRace(x);
         if (enemy.getName() == 'R') {
-            x = (float) (x * Constants.getSlamRogue());
+            x = (x * Constants.getSlamRogue());
         }
         if (enemy.getName() == 'K') {
-            x = (float) (x * Constants.getSlamKnight());
+            x = (x * Constants.getSlamKnight());
         }
         if (enemy.getName() == 'P') {
-            x = (float) (x * Constants.getSlamPyromancer());
+            x = (x * Constants.getSlamPyromancer());
         }
         if (enemy.getName() == 'W') {
-            x = (float) (x * Constants.getSlamWizard());
+            x = (x * Constants.getSlamWizard());
         }
         enemy.setincapacityMove(true);
+        // setez incapacitatea adversarului pentru urmatoarea runda
         this.setdamageSecondAbility(Math.round(x));
     }
 
@@ -79,6 +80,8 @@ public class Knight extends Player {
      * @param k
      */
     public void damageOvertime(final Player enemy, final int k) {
+        // scad damage-ul primit in overtime in functie de adversar
+        // numarul de runde depinde de adversar si teren
         if (this.isroundDamageIndicator()) {
             if (this.isbigOvertime() && k != 0) {
                 if (this.getnumberRoundsDamage() >= Constants.getFOUR()
@@ -116,6 +119,9 @@ public class Knight extends Player {
      * @param enemy
      */
     public void levelModifier(final Player enemy) {
+        // daca adversarul este mort si nu din overtime
+        // implementez cresterea in nivel
+        // Totodata, resetez si viata dupa indicatii
         if (enemy.getHp() <= 0 && this.getdeadFromOvertime() == 0) {
             this.modifiyXp(Math.max(0, Constants.getFIFTY()
                     * Constants.getFOUR() - (this.getLevel()
@@ -138,6 +144,8 @@ public class Knight extends Player {
      * @param land
      */
     public void totalDamage(final Player enemy, final char land) {
+        // aflu daca Knight-ul se poate folosi de abilitatea speciala
+        // prin care ia toata viata adversarului
         int totalDamage = this.getdamageFirstAbility()
                 + this.getdamageSecondAbility();
         if (enemy.getHp() <= (enemy.getmaxHp() * ((float) (Constants.getTWO()
@@ -159,6 +167,8 @@ public class Knight extends Player {
         } else {
         enemy.modifyHp(-totalDamage);
         }
+        // calculezz dmg-ul total, il scad din viata adversarului si resetez
+        // puterile inapoi la base dmg
         this.setdamageSecondAbility(Constants.getBaseDamageSlam());
         this.setdamageFirstAbility(Constants.getBaseDamageExecute());
     }
