@@ -27,6 +27,8 @@ public class Rogue extends Player {
      * @param land
      */
     public void firstAbility(final Player enemy, final char land) {
+        // aplic Critical Backstab daca este pe teren de tip Woods
+        // contorizez numarul de lovituri pentru a lovi din nou cu Critical
         this.setBackstab_numberhits(this.getBackstab_numberhits() + 1);
         this.addDamageLevelFirst(Constants.getBoostDamageBackstab()
                 * this.getLevel());
@@ -67,11 +69,13 @@ public class Rogue extends Player {
      */
     @Override
     public void secondAbility(final Player enemy, final char land) {
+        // setez conditiile de dmgOvertime pt adversar
         this.addDamageLevelSecond(Constants.getBoostDamageParalysis()
                 * this.getLevel());
         enemy.setroundDamageIndicator(true);
         enemy.setincapacityMove(true);
         float x = this.getdamageSecondAbility();
+        // daca este pe teren de tip Woods, aplicam bonusurile
         if (land == 'W') {
             if (!this.isnoEnter()) {
                 enemy.setnumberRoundsDamage(Constants.getSIX());
@@ -96,6 +100,7 @@ public class Rogue extends Player {
         if (enemy.getName() == 'W') {
             x = (x * Constants.getParalysisWizard());
         }
+        // setez dmgOvertime pentru adversar
         enemy.setdamageOvertime(Math.round(x));
         this.setdamageSecondAbility(Math.round(x));
     }
@@ -106,6 +111,8 @@ public class Rogue extends Player {
      * @param k
      */
     public void damageOvertime(final Player enemy, final int k) {
+        // scad damage-ul primit in overtime in functie de adversar
+        // numarul de runde depinde de adversar si teren
         if (this.isroundDamageIndicator()) {
             if (this.isbigOvertime()) {
                 if (this.getnumberRoundsDamage() >= Constants.getFOUR()
@@ -140,6 +147,9 @@ public class Rogue extends Player {
      * @param enemy
      */
     public void levelModifier(final Player enemy) {
+        // daca adversarul este mort si nu din overtime
+        // implementez cresterea in nivel
+        // Totodata, resetez si viata dupa indicatii
         if (enemy.getHp() <= 0 && this.getdeadFromOvertime() == 0) {
             this.modifiyXp(Math.max(0, Constants.getFIFTY()
                     * Constants.getFOUR() - (this.getLevel()
@@ -165,6 +175,8 @@ public class Rogue extends Player {
         int totalDamage = this.getdamageFirstAbility()
                 + this.getdamageSecondAbility();
         enemy.modifyHp(-totalDamage);
+            // calculezz dmg-ul total, il scad din viata adversarului si resetez
+            // puterile inapoi la base dmg
         this.setdamageFirstAbility(Constants.getBaseDamageBackstab());
         this.setdamageSecondAbility(Constants.getBaseDamageParalysis());
         }
