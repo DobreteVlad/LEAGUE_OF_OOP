@@ -24,6 +24,8 @@ public class Wizard extends Player {
      * @param land
      */
     public void firstAbility(final Player enemy, final char land) {
+        // calculez procentele din viata ce trebuiesc scazute adversarului
+        // dupa indicatii
         float aux = 1;
         if (land == 'D') {
             aux = Constants.getLandBonusDesert();
@@ -63,6 +65,7 @@ public class Wizard extends Player {
     public void secondAbility(final Player enemy, final char land) {
         if (enemy.getName() != 'W') {
             float aux = 1;
+            //specific wizzului, acesta scada un procent din dmg total al adversarului
             float totalEnemyDamage = enemy.getdamageTotalNoRace();
             enemy.modifyDamageTotalNoRace(-enemy.getdamageTotalNoRace());
             if (land == 'D') {
@@ -100,6 +103,7 @@ public class Wizard extends Player {
                             * (0.7f * totalEnemyDamage * aux)));
                 }
             }
+            // wizz-ul nu poate sa dea Deflect altui wizz
         }
     }
 
@@ -109,6 +113,8 @@ public class Wizard extends Player {
      * @param k
      */
     public void damageOvertime(final Player enemy, final int k) {
+        // scad damage-ul primit in overtime in functie de adversar
+        // numarul de runde depinde de adversar si teren
         if (this.isroundDamageIndicator()) {
             if (this.isbigOvertime()) {
                 if (this.getnumberRoundsDamage() >= Constants.getFOUR()
@@ -143,6 +149,9 @@ public class Wizard extends Player {
      * @param enemy
      */
     public void levelModifier(final Player enemy) {
+        // daca adversarul este mort si nu din overtime
+        // implementez cresterea in nivel
+        // Totodata, resetez si viata dupa indicatii
         if (enemy.getHp() <= 0 && this.getdeadFromOvertime() == 0) {
             this.modifiyXp(Math.max(0, Constants.getFIFTY() * Constants.getFOUR()
                     - (this.getLevel() - enemy.getLevel()) * Constants.getFOURTY()));
@@ -165,6 +174,8 @@ public class Wizard extends Player {
     public void totalDamage(final Player enemy, final char land) {
         int totalDamage = this.getdamageFirstAbility()
                 + this.getdamageSecondAbility();
+        // calculezz dmg-ul total, il scad din viata adversarului si resetez
+        // puterile inapoi la base dmg
         enemy.modifyHp(-totalDamage);
         this.setdamageFirstAbility(0);
         this.setdamageSecondAbility(0);
