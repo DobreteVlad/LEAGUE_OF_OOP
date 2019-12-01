@@ -44,8 +44,10 @@ public final class Main {
                       moveMatrix[i][j] = direction.charAt(j);
                   }
               }
+              // mutarea jucatorilor, dupa comenzi
             for (int k = 0; k < r; k++) {
                 for (int l = 0; l < p; l++) {
+                    // daca jucatorul este afectat de abilitatea de incapacitare, acesta nu misca
                         if (moveMatrix[k][l] == 'U' && !myplayers.get(l).isincapacityMove()) {
                             myplayers.get(l).setX(myplayers.get(l).getX() - 1);
                             moveMatrix[k][l] = '_';
@@ -64,6 +66,7 @@ public final class Main {
                         }
                         myplayers.get(l).setincapacityMove(false);
                 }
+                // incep lupta, afland mai intai daca jucatorii se afla in aceeasi celula
                 for (int i = 0; i < p - 1; i++) {
                     for (int j = i + 1; j < p; j++) {
                         if (myplayers.get(i).getX() == myplayers.get(j).getX()
@@ -71,6 +74,7 @@ public final class Main {
                                 && myplayers.get(i).getHp()
                                 > 0 && myplayers.get(j).getHp() > 0 && myplayers.get(i).getName()
                                 != 'W') {
+                            // aplic mai intai dmgOvertime
                             myplayers.get(i).damageOvertime(myplayers.get(j), k);
                             if (myplayers.get(i).getHp() > 0) {
                                 myplayers.get(i).firstAbility(myplayers.get(j),
@@ -89,6 +93,7 @@ public final class Main {
                                 myplayers.get(i).levelModifier(myplayers.get(j));
                                 myplayers.get(j).levelModifier(myplayers.get(i));
                             } else {
+                                // daca moare primul jucator, scad doar dmgOvertime adversarului
                                 myplayers.get(j).damageOvertime(myplayers.get(i), k);
                             }
                         } else if (myplayers.get(i).getX() == myplayers.get(j).getX()
