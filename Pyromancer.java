@@ -26,6 +26,7 @@ public class Pyromancer extends Player {
      * @param land
      */
     public void firstAbility(final Player enemy, final char land) {
+        // aflu damage-ul total pentru prima abilitate in functie de land si race modifier
         this.addDamageLevelFirst(Constants.getBoostDamageFireblast() * this.getLevel());
         float x = this.getdamageFirstAbility();
         if (land == 'V') {
@@ -53,6 +54,8 @@ public class Pyromancer extends Player {
      * @param land
      */
     public void secondAbility(final Player enemy, final char land) {
+        // aflu damage-ul total pentru a doua abilitate
+        // setez conditia de dmgOvertime a adversarului
         enemy.setroundDamageIndicator(true);
         float k = Constants.getOvertimeDamageIgnite()
                 + Constants.getBoostOvertimeDamageIgnite() * this.getLevel();
@@ -90,6 +93,8 @@ public class Pyromancer extends Player {
      * @param k
      */
     public void damageOvertime(final Player enemy, final int k) {
+        // scad damage-ul primit in overtime in functie de adversar
+        // numarul de runde depinde de adversar si teren
         if (this.isroundDamageIndicator()) {
             if (this.isbigOvertime() && k != 0) {
                 if (this.getnumberRoundsDamage() >= Constants.getFOUR()
@@ -117,6 +122,8 @@ public class Pyromancer extends Player {
         if (this.getnumberRoundsDamage() == 0) {
             this.setroundDamageIndicator(false);
         }
+        // daca cumva moare din damageOvertime retin pentru a nu
+        // considera cresterea nivelului de XP
         if (this.getHp() <= 0) {
             this.setdeadFromOvertime(1);
         }
@@ -127,6 +134,9 @@ public class Pyromancer extends Player {
      * @param enemy
      */
     public void levelModifier(final Player enemy) {
+        // daca adversarul este mort si nu din overtime
+        // implementez cresterea in nivel
+        // Totodata, resetez si viata dupa indicatii
         if (enemy.getHp() <= 0 && this.getdeadFromOvertime() == 0) {
             this.modifiyXp(Math.max(0, Constants.getFIFTY()
                     * Constants.getFOUR() - (this.getLevel()
@@ -151,6 +161,8 @@ public class Pyromancer extends Player {
         int totalDamage = this.getdamageFirstAbility()
                 + this.getdamageSecondAbility();
         enemy.modifyHp(-totalDamage);
+        // calculezz dmg-ul total, il scad din viata adversarului si resetez
+        // puterile inapoi la base dmg
         this.setdamageFirstAbility(Constants.getBaseDamageFireblast());
         this.setdamageSecondAbility(Constants.getBaseDamageIgnite());
     }
