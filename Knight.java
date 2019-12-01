@@ -1,107 +1,165 @@
 package players;
 
+import util.Constants;
 
 public class Knight extends Player {
-    Knight(int x, int y){
+    Knight(final int x, final int y) {
         this.setX(x);
         this.setY(y);
-        this.setHp(900);
+        this.setHp(Constants.getInitialHpKnight());
         this.setLevel(0);
         this.setName('K');
-        this.setDamage_first_ability(200);
-        this.setDamage_second_ability(100);
-        this.setRound_damage_indicator(false);
-        this.setNumber_rounds_damage(4);
-        this.setDamage_overtime(50);
-        this.setMax_hp(900);
-        this.setIncapacity_move(false);
-        this.setDamage_total_norace(0);
-    }
-    public void First_Ability(Player enemy, char land) {
-        this.AddDamage_Level_First(30*this.getLevel());
-        float x = this.getDamage_first_ability();
-        if(land=='L'){
-            x= (float) (x*1.15);
-        }
-        this.Modify_damage_total_norace(x);
-        if(enemy.getName() == 'R'){
-            x= (float) (x*1.15);
-        }
-        if(enemy.getName() == 'K'){
-            x= (float) (x*1);
-        }
-        if(enemy.getName() == 'P'){
-            x= (float) (x*1.1);
-        }
-        if(enemy.getName() == 'W'){
-            x= (float) (x*0.8);
-        }
-        this.setDamage_first_ability(Math.round(x));
-        //System.out.println(getDamage_first_ability()+ " ");
+        this.setdamageFirstAbility(Constants.getBaseDamageExecute());
+        this.setdamageSecondAbility(Constants.getBaseDamageSlam());
+        this.setroundDamageIndicator(false);
+        this.setnumberRoundsDamage(Constants.getFOUR());
+        this.setmaxHp(Constants.getInitialHpKnight());
+        this.setincapacityMove(false);
+        this.setdamageTotalNoRace(0);
     }
 
-    public void Second_ability(Player enemy, char land) {
-        this.AddDamage_Level_First(40*this.getLevel());
-        float x = this.getDamage_second_ability();
-        if(land=='L'){
-            x= (float) (x*1.15);
+    /**
+     *
+     * @param enemy
+     * @param land
+     */
+    public void firstAbility(final Player enemy, final char land) {
+        this.addDamageLevelFirst(Constants.getBoostDamageExecute() * this.getLevel());
+        float x = this.getdamageFirstAbility();
+        if (land == 'L') {
+            x = (float) (x * Constants.getLandBonusLand());
         }
-        this.Modify_damage_total_norace(x);
-        if(enemy.getName() == 'R'){
-            x= (float) (x*0.8);
+        this.modifyDamageTotalNoRace(x);
+        if (enemy.getName() == 'R') {
+            x = (float) (x * Constants.getExecuteRogue());
         }
-        if(enemy.getName() == 'K'){
-            x= (float) (x*1.2);
+        if (enemy.getName() == 'K') {
+            x = (float) (x * Constants.getExecuteKnight());
         }
-        if(enemy.getName() == 'P'){
-            x= (float) (x*0.9);
+        if (enemy.getName() == 'P') {
+            x = (float) (x * Constants.getExecutePyromancer());
         }
-        if(enemy.getName() == 'W'){
-            x= (float) (x*1.05);
+        if (enemy.getName() == 'W') {
+            x = (float) (x * Constants.getExecuteWizard());
         }
-        enemy.setIncapacity_move(true);
-        this.setDamage_second_ability(Math.round(x));
-        //System.out.println(this.getDamage_second_ability()+ " ");
+        this.setdamageFirstAbility(Math.round(x));
     }
-    public void Damage_overtime(Player enemy){
-        if(this.isRound_damage_indicator()){
-           // System.out.println(this.getNumber_rounds_damage());
-            if(this.getNumber_rounds_damage()>=1 && this.getNumber_rounds_damage()<=3 && enemy.getName()=='R'){
-                //System.out.println("da");
-                this.Modify_hp(-this.getDamage_overtime());
-            }
-            else if(this.getNumber_rounds_damage()>=2 && this.getNumber_rounds_damage()<=3 && enemy.getName()=='P'){
-                this.Modify_hp(-this.getDamage_overtime());
-            }
-            this.setNumber_rounds_damage(this.getNumber_rounds_damage() - 1);
-            //System.out.println(this.getNumber_rounds_damage());
-        }
 
-
+    /**
+     *
+     * @param enemy
+     * @param land
+     */
+    public void secondAbility(final Player enemy, final char land) {
+        this.addDamageLevelSecond(Constants.getBoostDamageIgnite() * this.getLevel());
+        float x = this.getdamageSecondAbility();
+        if (land == 'L') {
+            x = (float) (x * Constants.getLandBonusLand());
+        }
+        this.modifyDamageTotalNoRace(x);
+        if (enemy.getName() == 'R') {
+            x = (float) (x * Constants.getSlamRogue());
+        }
+        if (enemy.getName() == 'K') {
+            x = (float) (x * Constants.getSlamKnight());
+        }
+        if (enemy.getName() == 'P') {
+            x = (float) (x * Constants.getSlamPyromancer());
+        }
+        if (enemy.getName() == 'W') {
+            x = (float) (x * Constants.getSlamWizard());
+        }
+        enemy.setincapacityMove(true);
+        this.setdamageSecondAbility(Math.round(x));
     }
-   public void Level_modifier(Player enemy){
-        if(enemy.getHp() <= 0 ){
-            this.Modifiy_Xp(Math.max(0, 200 -(this.getLevel()-enemy.getLevel())*40));
-            if(250 + this.getLevel()*50  <= this.getXp()){
-                this.setLevel(this.getLevel() + 1);
-                this.setHp(900 + 80*this.getLevel());
-                this.setMax_hp(this.getHp());
+
+    /**
+     *
+     * @param enemy
+     * @param k
+     */
+    public void damageOvertime(final Player enemy, final int k) {
+        if (this.isroundDamageIndicator()) {
+            if (this.isbigOvertime() && k != 0) {
+                if (this.getnumberRoundsDamage() >= Constants.getFOUR()
+                        && this.getnumberRoundsDamage() <= Constants.getSIX()
+                        && enemy.getName() == 'R') {
+                    this.modifyHp(-this.getdamageOvertime());
+                    this.setincapacityMove(true);
+                }
+                if (this.getnumberRoundsDamage() == Constants.getTHREE()) {
+                    this.setbigOvertime(false);
+                }
+            }
+            if (this.getnumberRoundsDamage() >= 1
+                    && this.getnumberRoundsDamage() <= Constants.getTHREE()
+                    && enemy.getName() == 'R') {
+                this.modifyHp(-this.getdamageOvertime());
+                this.setincapacityMove(true);
+            } else if (this.getnumberRoundsDamage() >= 2
+                    && this.getnumberRoundsDamage() <= Constants.getTHREE()
+                    && enemy.getName() == 'P') {
+                this.modifyHp(-this.getdamageOvertime());
+            }
+        }
+        this.setnumberRoundsDamage(this.getnumberRoundsDamage() - 1);
+        if (this.getnumberRoundsDamage() == 0) {
+            this.setroundDamageIndicator(false);
+        }
+        if (this.getHp() <= 0) {
+            this.setdeadFromOvertime(1);
+        }
+    }
+
+    /**
+     *
+     * @param enemy
+     */
+    public void levelModifier(final Player enemy) {
+        if (enemy.getHp() <= 0 && this.getdeadFromOvertime() == 0) {
+            this.modifiyXp(Math.max(0, Constants.getFIFTY()
+                    * Constants.getFOUR() - (this.getLevel()
+                    - enemy.getLevel()) * Constants.getFOURTY()));
+            if (this.getXp() >= Constants.getFIFTY() * Constants.getFIVE()) {
+                this.setLevel(this.getLevel() + 1
+                        + ((this.getXp()
+                        - Constants.getFIFTY() * Constants.getFIVE())
+                        / Constants.getFIFTY()));
+                this.setHp(Constants.getInitialHpKnight()
+                        + Constants.getBoostHpKnight() * this.getLevel());
+                this.setmaxHp(this.getHp());
             }
         }
     }
-    public void Total_Damage(Player enemy, char land){
-        int total_damage = this.getDamage_first_ability() + this.getDamage_second_ability();
-        if(enemy.getHp() <= (enemy.getMax_hp() * (0.2+(0.01*this.getLevel()))) && 0.2+(0.01*this.getLevel()) <= 0.4){
+
+    /**
+     *
+     * @param enemy
+     * @param land
+     */
+    public void totalDamage(final Player enemy, final char land) {
+        int totalDamage = this.getdamageFirstAbility()
+                + this.getdamageSecondAbility();
+        if (enemy.getHp() <= (enemy.getmaxHp() * ((float) (Constants.getTWO()
+                / Constants.getTEN()) + ((float) (1 / Constants.getTEN()
+                / Constants.getTEN())
+                * this.getLevel()))) && (float) (Constants.getTWO()
+                / Constants.getTEN())
+                + ((float) (1 / Constants.getTEN() / Constants.getTEN())
+                * this.getLevel()) <= (float) (Constants.getFOUR()
+                / Constants.getTEN())) {
             enemy.setHp(0);
-        }
-        else if( 0.2+(0.01 *this.getLevel())>0.4 && enemy.getHp() <= (enemy.getMax_hp()*0.4)){
+        } else if ((float) (Constants.getTWO()
+                / Constants.getTEN()) + ((float) (1 / Constants.getTEN()
+                / Constants.getTEN()) * this.getLevel())
+                > (float) (Constants.getFOUR() / Constants.getTEN())
+                && enemy.getHp() <= (enemy.getmaxHp()
+                * (float) (Constants.getFOUR() / Constants.getTEN()))) {
             enemy.setHp(0);
+        } else {
+        enemy.modifyHp(-totalDamage);
         }
-        else{
-        enemy.Modify_hp(-total_damage);
-        }
-        this.setDamage_second_ability(100);
-        this.setDamage_first_ability(200);
+        this.setdamageSecondAbility(Constants.getBaseDamageSlam());
+        this.setdamageFirstAbility(Constants.getBaseDamageExecute());
     }
-
 }
