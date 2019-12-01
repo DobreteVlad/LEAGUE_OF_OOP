@@ -1,182 +1,359 @@
 package players;
-import static java.lang.StrictMath.max;
 
-abstract public class Player {
+public abstract class Player {
        private int hp;
        private int xp;
        private int level;
-       private int damage_first_ability;
-       private int damage_second_ability;
+       private int damageFirstAbility;
+       private int damageSecondAbility;
        private char name;
        private int x;
        private int y;
-       private boolean round_damage_indicator;
-       private int number_rounds_damage;
-       private int damage_overtime;
-       private int max_hp;
-       private boolean incapacity_move;
-       private float Damage_total_norace;
+       private boolean roundDamageIndicator;
+       private int numberRoundsDamage;
+       private int damageOvertime;
+       private int maxHp;
+       private boolean incapacityMove;
+       private float damageTotalNoRace;
        private int Backstab_numberhits;
+       private boolean bigOvertime;
+       private int deadFromOvertime;
+       private boolean noEnter;
 
-    public void setBackstab_numberhits(int backstab_numberhits) {
-        Backstab_numberhits = backstab_numberhits;
+    /**
+     *
+     * @param noEnterr
+     */
+    public void setnoEnter(final boolean noEnterr) {
+        this.noEnter = noEnterr;
     }
 
+    /**
+     *
+     * @return
+     */
+    public boolean isnoEnter() {
+        return noEnter;
+    }
+
+    /**
+     *
+     * @param deadFromOvertimee
+     */
+    public void setdeadFromOvertime(final int deadFromOvertimee) {
+        this.deadFromOvertime = deadFromOvertimee;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getdeadFromOvertime() {
+        return deadFromOvertime;
+    }
+
+    /**
+     *
+     * @param bigOvertimee
+     */
+    public void setbigOvertime(final boolean bigOvertimee) {
+        this.bigOvertime = bigOvertimee;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isbigOvertime() {
+        return bigOvertime;
+    }
+
+    /**
+     *
+     * @param backstab_numberhitss
+     */
+    public void setBackstab_numberhits(final int backstab_numberhitss) {
+        Backstab_numberhits = backstab_numberhitss;
+    }
+
+    /**
+     *
+     * @return
+     */
     public int getBackstab_numberhits() {
         return Backstab_numberhits;
     }
 
-    public void setDamage_total_norace(float damage_total_norace) {
-        Damage_total_norace = damage_total_norace;
+    /**
+     *
+     * @param damageTotalNoRacee
+     */
+    public void setdamageTotalNoRace(final float damageTotalNoRacee) {
+        damageTotalNoRace = damageTotalNoRacee;
     }
 
-    public float getDamage_total_norace() {
-        return Damage_total_norace;
-    }
-    public void Modify_damage_total_norace(float damage_total_norace){
-        this.Damage_total_norace+=damage_total_norace;
-    }
-
-    public void setIncapacity_move(boolean incapacity_move) {
-        this.incapacity_move = incapacity_move;
+    /**
+     *
+     * @return
+     */
+    public float getdamageTotalNoRace() {
+        return damageTotalNoRace;
     }
 
-    public boolean isIncapacity_move() {
-        return incapacity_move;
+    /**
+     *
+     * @param damageTotalNoRacee
+     */
+    public void modifyDamageTotalNoRace(final float damageTotalNoRacee) {
+        this.damageTotalNoRace += damageTotalNoRacee;
     }
 
-    public void setMax_hp(int max_hp) {
-        this.max_hp = max_hp;
+    /**
+     *
+     * @param incapacityMovee
+     */
+    public void setincapacityMove(final boolean incapacityMovee) {
+        this.incapacityMove = incapacityMovee;
     }
 
-    public int getMax_hp() {
-        return max_hp;
+    /**
+     *
+     * @return
+     */
+    public boolean isincapacityMove() {
+        return incapacityMove;
     }
 
-    Player(){
-
-    }
-    public abstract void First_Ability(Player enemy, char land);
-    public abstract void  Second_ability(Player enemy, char land);
-    public abstract void Damage_overtime(Player enemy);
-    public abstract void Level_modifier(Player enemy);
-    public abstract void Total_Damage(Player enemy,char land);
-
-
-    public boolean isRound_damage_indicator() {
-        return round_damage_indicator;
+    /**
+     *
+     * @param maxHpp
+     */
+    public void setmaxHp(final int maxHpp) {
+        this.maxHp = maxHpp;
     }
 
-    public int getDamage_overtime() {
-        return damage_overtime;
+    /**
+     *
+     * @return
+     */
+    public int getmaxHp() {
+        return maxHp;
     }
 
-    public void setDamage_first_ability(int damage_first_ability) {
-        this.damage_first_ability = damage_first_ability;
+    Player() {
+
+    }
+    public abstract void firstAbility(Player enemy, char land);
+    public abstract void  secondAbility(Player enemy, char land);
+    public abstract void damageOvertime(Player enemy, int k);
+    public abstract void levelModifier(Player enemy);
+    public abstract void totalDamage(Player enemy, char land);
+
+    /**
+     *
+     * @return
+     */
+    public boolean isroundDamageIndicator() {
+        return roundDamageIndicator;
     }
 
-    public void setDamage_second_ability(int damage_second_ability) {
-        this.damage_second_ability = damage_second_ability;
+    /**
+     *
+     * @return
+     */
+    public int getdamageOvertime() {
+        return damageOvertime;
     }
 
-    public void setHp(int hp) {
-        this.hp = hp;
+    /**
+     *
+     * @param damageFirstAbilityy
+     */
+    public void setdamageFirstAbility(final int damageFirstAbilityy) {
+        this.damageFirstAbility = damageFirstAbilityy;
     }
 
-    public void setXp(int xp) {
-        this.xp = xp;
+    /**
+     *
+     * @param damageSecondAbilityy
+     */
+    public void setdamageSecondAbility(final int damageSecondAbilityy) {
+        this.damageSecondAbility = damageSecondAbilityy;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    /**
+     *
+     * @param hpp
+     */
+    public void setHp(final int hpp) {
+        this.hp = hpp;
     }
 
-    public void Modify_hp(int hp){
-        this.hp += hp;
-    }
-    public void Modify_xp(int level_winner, int level_loser){
-        xp = xp + max(0, 200 - (level_winner - level_loser) * 40);
-    }
-    public void XP_level_up(){
-        int XP_level_up= 250 + level*50;
-        if(XP_level_up - level >= 50){
-            level++;
-        }
+    /**
+     *
+     * @param xpp
+     */
+    public void setXp(final int xpp) {
+        this.xp = xpp;
     }
 
-    public void setRound_damage_indicator(boolean round_damage_indicator) {
-        this.round_damage_indicator = round_damage_indicator;
+    /**
+     *
+     * @param levell
+     */
+    public void setLevel(final int levell) {
+        this.level = levell;
     }
 
-    public void setNumber_rounds_damage(int number_rounds_damage) {
-        this.number_rounds_damage = number_rounds_damage;
+    /**
+     *
+     * @param hpp
+     */
+    public void modifyHp(final int hpp) {
+        this.hp += hpp;
     }
 
-    public void setDamage_overtime(int damage_overtime) {
-        this.damage_overtime = damage_overtime;
+    /**
+     *
+     * @param roundDamageIndicatorr
+     */
+    public void setroundDamageIndicator(final boolean roundDamageIndicatorr) {
+        this.roundDamageIndicator = roundDamageIndicatorr;
     }
 
-    public int getNumber_rounds_damage() {
-        return number_rounds_damage;
+    /**
+     *
+     * @param numberRoundsDamagee
+     */
+    public void setnumberRoundsDamage(final int numberRoundsDamagee) {
+        this.numberRoundsDamage = numberRoundsDamagee;
     }
 
+    /**
+     *
+     * @param damageOvertimee
+     */
+    public void setdamageOvertime(final int damageOvertimee) {
+        this.damageOvertime = damageOvertimee;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getnumberRoundsDamage() {
+        return numberRoundsDamage;
+    }
+
+    /**
+     *
+     * @return
+     */
     public int getLevel() {
         return level;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getXp() {
         return xp;
     }
 
+    /**
+     *
+     * @return
+     */
     public char getName() {
         return name;
     }
 
-    public void setName(char name) {
-        this.name = name;
+    /**
+     *
+     * @param namee
+     */
+    public void setName(final char namee) {
+        this.name = namee;
     }
 
-    public int getDamage_first_ability() {
-        return damage_first_ability;
+    /**
+     *
+     * @return
+     */
+    public int getdamageFirstAbility() {
+        return damageFirstAbility;
     }
 
-    public int getDamage_second_ability() {
-        return damage_second_ability;
+    /**
+     *
+     * @return
+     */
+    public int getdamageSecondAbility() {
+        return damageSecondAbility;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    /**
+     *
+     * @param xx
+     */
+    public void setX(final int xx) {
+        this.x = xx;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    /**
+     *
+     * @param yy
+     */
+    public void setY(final int yy) {
+        this.y = yy;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getHp() {
         return hp;
     }
-    public void AddDamage_Level_First(long damage_first_ability){
-        this.damage_first_ability += damage_first_ability;
-    }
-    public void AddDamage_Level_Second(long damage_second_ability){
-        this.damage_second_ability += damage_second_ability;
+
+    /**
+     *
+     * @param damageFirstAbilityy
+     */
+    public void addDamageLevelFirst(final long damageFirstAbilityy) {
+        this.damageFirstAbility += damageFirstAbilityy;
     }
 
-    public void ModifyDamage_first_ability(float coeficient){
-        this.damage_first_ability = Math.round(this.damage_first_ability * coeficient);
+    /**
+     *
+     * @param damageSecondAbilityy
+     */
+    public void addDamageLevelSecond(final long damageSecondAbilityy) {
+        this.damageSecondAbility += damageSecondAbilityy;
     }
-    public void ModifyDamage_second_ability(float coeficient){
-        this.damage_second_ability =Math.round(this.damage_second_ability*coeficient) ;
-    }
-    public void Modifiy_Xp(int xp){
-        this.xp += xp;
+
+    /**
+     *
+     * @param xpp
+     */
+    public void modifiyXp(final int xpp) {
+        this.xp += xpp;
     }
 }
