@@ -1,9 +1,9 @@
 package players;
 
 public final class PlayerFactory {
-    public static PlayerFactory instance = null;
+    private static PlayerFactory instance = null;
 
-    private PlayerFactory(){
+    private PlayerFactory() {
 
     }
 
@@ -13,12 +13,12 @@ public final class PlayerFactory {
         }
         return instance;
     }
-    public Player CreatePlayer(final String type, int x, int y) {
+    public Player createPlayer(final String type, final int x, final int y) {
         switch (type) {
-            case "P": return new Pyromancer(x,y);
-            case "K": return new Knight(x,y);
-            case "W": return new Wizard(x,y);
-            case "R": return new Rogue(x,y);
+            case "P": return new Pyromancer(x, y);
+            case "K": return new Knight(x, y);
+            case "W": return new Wizard(x, y);
+            case "R": return new Rogue(x, y);
             default : return null;
         }
     }
