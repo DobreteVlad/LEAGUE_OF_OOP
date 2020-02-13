@@ -1,0 +1,55 @@
+In prima etapa, am implementat jucatorii astfel incat fiecare sa aiba ambele abilitati in
+propriile clase.
+Pentru fiecare jucator, am variabile comune, cum ar fi, hp level, pozitie pe harta etc.
+Pentru fiecare, in functie de descrierea lor, le setez prin setteri si le obtin prin getter.
+Dupa logica jocului, mai intai atribui base damage-ul la fiecare abilitate. Urmeeaza bonusul
+de nivel si bonusul de land, daca cumva se afla in taramul care il avantajeaza. Pentru a atribui
+bonusul de rasa, aflu ce oponent are si modific damage-ul abilitatii. La finalul fiecarei
+abilitati, fac Math Round, dupa cum este specificat in enunt.
+In fiecare clasa, am o metoda care aduna damage-ul fiecarei abilitati, pe care il scad din hp-ul
+oponentului. Tot in aceasta metoda, implementez si puteri specifice, daca eroul are.(ex knight
+cu damage cat hp-ul adversarului, pentru un anumit procent). De asemenea, retin si daca oponentul
+primeste puterea de imobilizare, pe care o apelez in main, la partea in care implementez harta
+si pozitiile Playerilor.
+Dupa prima runda, la jucatorii care dau damageOvertime, setez campul care retine acest lucru
+pentru ca mai tarziu, in metoda damageOvertime, sa scad inainte de a se lupta, procentul din 
+viata fiecaruia. In damageOvertime, incerc sa diferentiez, daca adversarul este sau nu , Rogue sau
+Pyromancer(amandoi au damage overtime), pentru a putea stii, cate runde este blestemat jucatorul.
+Am implementat si metoda levelModifier, care, daca adversarul este omorat dupa abilitati, creste
+Xp-ul, iar daca trece de anumite bariere, creste lvl-ul si modifica hp-ul.
+Dupa ce am realizat citirea, in main, am inceput jocul si am apelat metodele, in ordinea logicii
+jocului. Desigur, inainte de a incepe lupta, fiecare jucator se muta dupa specificatiile oferite
+din fisierul de input.
+Clasa Player este abstracta, iar din aceasta pornesc toate tipologiile de Playeri.
+Clasa PlayerFactory imi creaza instanta pentru jucatori, pentru a putea folosi campurile
+acestora.
+Clasa Constants, redenumeste toate MAGIC_Number-urile.
+
+In a doua etapa, am implementat harta astfel incat sa fie singleton( clasa Terrain).
+Am creat pattern -ul observer care notifica magicianul de aparitia unei "modificari".
+Din interfata Observator reiese si magicianul, care este notificat metoda update
+Fiecare afisare este facuta in asa fel incat sa treaca prin mana magicianului.
+Am implementat si pattern -ul de strategy, creand o interfata Strategy din care deriva toate cele
+trei tipuri de atacuri: Attack, defense si normal.
+La fiecare player, inainte de a face orice mutare, dar dupa damage-ul dat overtime, aleg strategia
+in functie de caracteristicile prezentate in enunt.
+Fiecare clasa pentru Strategy are 4 visit-uri care viziteaza toate cele 4 tipuri de playeri.
+Pentru ca fiecare player sa aiba modifierii proprii(nu mai puteam sa ii retin in clasa Constants),
+am pus in fiecare clasa de player variabile private pentru fiecare tip de rasa si putere.
+Pentru acestea, am creat si getteri si setteri pentru a ii putea accesa de oriunde.
+Fata de prima etapa, am facut clasa cu constante pentru fiecare tip de player si inger.
+Mai am si clasa Constants care contine constantele generale(cifre uzuale).
+Fata de prima etapa, am mai introdus afisarile pe parcurs, transpuse prin observer pattern.
+Dupa terminarea luptei, introduc si ingerii care isi fac "magia" asupra fiecarui player.
+In functie de puterile fiecaruia, scad sau cresc hp-ul si modifierii de damage pentru fiecare player
+din runda respectiva.
+Toate tipurile de ingeri, apartin clasei abstracte Angel.
+De asemenea, pentru fiecare inger, retin pozitia, ca la playeri, pentru a putea vedea daca sunt in
+aceeasi casuta cu playerii.
+Am si un Angel Factory care creeaza toate tipuri de ingeri.
+In clasele ingerilor, fac afisari dupa fiecare modificare, dupa cum este prezentat in exemple.
+Cat despre playeri, nu am facut modificari masive fata de prima etapa, introducand in mare, doar afisarile
+dupa level up, sau kill intre playeri.
+Fiecare playeri isi calculeaza damage-ul dupa fiecare abilitate urmand ca in TotalDamage, sa fie scazut
+oponentului din hp pe masura damage-ului.
+Am adaugat metodele pentru alegerea strategiei si pentru a accepta vizitarea de catre ingeri.
